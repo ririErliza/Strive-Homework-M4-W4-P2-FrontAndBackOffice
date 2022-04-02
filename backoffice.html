@@ -74,10 +74,12 @@
                   <input type="number" id="price" class="form-control" required>
               </div>
   
-              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="submit" class="btn btn-primary form-control mt-3">Submit</button>
 
   
           </form>
+
+          <button type="submit" class="btn btn-danger mt-3 form-control d-none" id="delete-button" onclick="deleteProduct()">Delete</button>
 
             
           </div>
@@ -110,7 +112,7 @@ const createProduct = async () => {
 
   console.log(newProduct);
 
-  // Post or Put data
+  // Post or Put data (using ternary operator, if there is productId -> PUT method, if there is no productId -> POST method)
   try {
       const response = await fetch(
           productId? url + productId : url, 
@@ -143,6 +145,7 @@ const createProduct = async () => {
 }
 
 
+// after edit button (at front office) clicked, the form (at backoffice) will be shown already filled with details inputted on POST method, so user or admin can just edit the details
 const fetchProductDetails = async () => {
 
     try {
@@ -163,7 +166,7 @@ const fetchProductDetails = async () => {
             price.value = details.price
 
         }else{
-            alert("something wrong")
+            alert("something wrong happened")
         }
         
     } catch (error) {
@@ -172,16 +175,35 @@ const fetchProductDetails = async () => {
     }
 }
 
-// const deleteProduct = async() => {
 
-//     try {
-//         let response = await fetch (url + productId)
-        
-//     } catch (error) {
-        
-//     }
+// delete function
+const deleteProduct = async() => {
 
-// }
+    try {
+        let response = await fetch (url + productId,
+        {
+          method: "DELETE",
+          headers: {
+              "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjQyZmRkYWRhMTNhZjAwMTUyYzFjNjEiLCJpYXQiOjE2NDg1NzQ5MjYsImV4cCI6MTY0OTc4NDUyNn0.gOoRdCMQbZ6_QKql-UCo6mNN0_m0pGlGLb5mGyQ2iGY",
+          }
+        })
+      if (response.ok){
+        alert("deletion succeed!")
+        window.location.assign("/frontoffice.html") //this will redirect me to frontoffice
+      }else{
+        alert("something's wrong, check again")
+      }
+    } catch (error) {
+        
+    }
+
+}
+
+// toggle button (we want delete button only show up when it's on editing mode not on creating mode)
+const toggleDeleteButton = () => { 
+let deleteButton = document.getElementById("delete-button")
+  deleteButton.classList.toggle("d-none")
+} 
 
 
 window.onload = () => {
@@ -189,6 +211,8 @@ window.onload = () => {
 
     if (productId){
         fetchProductDetails(productId)
+        toggleDeleteButton()
+
     }
 }
   </script>

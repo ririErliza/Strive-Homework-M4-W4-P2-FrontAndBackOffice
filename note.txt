@@ -92,3 +92,27 @@ or
               "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjQyZmRkYWRhMTNhZjAwMTUyYzFjNjEiLCJpYXQiOjE2NDg1NzQ5MjYsImV4cCI6MTY0OTc4NDUyNn0.gOoRdCMQbZ6_QKql-UCo6mNN0_m0pGlGLb5mGyQ2iGY",
           }
         }
+
+
+// delete event
+1. create delete function
+2. create delete button then attach the delete function using onclick="deleteProduct()"
+
+
+// toggle button (we want delete button only show up when it's on editing mode not on creating mode)
+set the button to d-none like this : <button type="submit" class="btn btn-danger mt-3 form-control d-none" id="delete-button" onclick="deleteProduct()">Delete</button>
+
+---function to toggle button-----
+const toggleDeleteButton = () => { 
+let deleteButton = document.getElementById("delete-button")
+  deleteButton.classList.toggle("d-none")
+} 
+
+----on window.onload put a condition if there is productId then toggleDeleteButton function called----
+window.onload = () => {
+
+    if (productId){
+        toggleDeleteButton()
+
+    }
+}
