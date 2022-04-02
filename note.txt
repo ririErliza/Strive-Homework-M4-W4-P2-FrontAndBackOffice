@@ -1,0 +1,94 @@
+---- adding product id at front office so that can be identified at backoffice ----
+1. at frontoffice
+add anchor tag at the product name and put the ID inside it's href
+like this :
+listItem.innerHTML = `<span><a href="./backoffice.html?eventId=${event._id}">${event.name}</a></span>`
+
+OR
+
+col.innerHTML = `<div class="card h-100" style="width: 14rem;">
+                <img src="${product.imageUrl}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title"><a href="/backoffice.html?productId=${product._id}"> ${product.name}</a></h5>
+                  <p class="card-text">Description: ${product.description}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item text-primary">${product.brand}</li>
+                  <li class="list-group-item">$ ${product.price}</li>
+                </ul>
+               
+            </div> `
+
+(depend on how we write it. the bottomline is there should be id attached to single product/event)
+
+2. at backoffice
+
+(these infos below are from lecture)
+
+    // first things first! I have to check if eventId is there or not
+    // this is going to tell me if the page has to be loaded in CREATION MODE
+    // or in EDIT MODE!
+
+      const eventId = new URLSearchParams(window.location.search).get('eventId')
+
+
+window.onload = () => {
+    console.log('EVENTID IS', eventId)
+    // eventId is going to tell us if we came here clicking on a link (UPDATE) or not (CREATE)
+    // now: if I have an eventId, I want to pre-fill the form with the existing data,so I can edit it and hopefully update the record
+     
+    if (eventId) { 
+    // here I should fetch the details of the particular event
+    // and fill the form with them
+    
+    fetchEventDetails(eventId)
+    
+    }
+}
+
+
+// Post data
+try {
+      const response = await fetch("https://striveschool-api.herokuapp.com/api/product/", {
+          method : "POST",
+          body: JSON.stringify(newProduct),
+          headers: {
+              "Content-Type" : "application/json",
+              "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjQyZmRkYWRhMTNhZjAwMTUyYzFjNjEiLCJpYXQiOjE2NDg1NzQ5MjYsImV4cCI6MTY0OTc4NDUyNn0.gOoRdCMQbZ6_QKql-UCo6mNN0_m0pGlGLb5mGyQ2iGY",
+          }
+      })
+
+      if(response.ok) {
+          const respProduct = await response.json()
+          alert("Success!")
+          name.value = ""
+          description.value = ""
+          brand.value = ""
+          imageUrl.value = ""
+          price.value = ""
+      }
+  } catch (err) {
+      console.log(err)
+  }
+}
+
+
+// inside fetch
+,
+        {
+          method:productId? "PUT": "POST",
+          body: JSON.stringify(newProduct),
+          headers: {
+              "Content-Type" : "application/json",
+              "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjQyZmRkYWRhMTNhZjAwMTUyYzFjNjEiLCJpYXQiOjE2NDg1NzQ5MjYsImV4cCI6MTY0OTc4NDUyNn0.gOoRdCMQbZ6_QKql-UCo6mNN0_m0pGlGLb5mGyQ2iGY",
+          }
+        }
+
+or
+
+        ,
+        {
+          headers: {
+              "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjQyZmRkYWRhMTNhZjAwMTUyYzFjNjEiLCJpYXQiOjE2NDg1NzQ5MjYsImV4cCI6MTY0OTc4NDUyNn0.gOoRdCMQbZ6_QKql-UCo6mNN0_m0pGlGLb5mGyQ2iGY",
+          }
+        }
