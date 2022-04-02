@@ -116,3 +116,7 @@ window.onload = () => {
 
     }
 }
+
+
+//alert('Successfully ${productId? 'updated the product': 'created the product'}!') 
+        --> this ternary operator didnt work need to use if else normally

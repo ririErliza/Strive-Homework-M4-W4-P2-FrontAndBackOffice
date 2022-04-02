@@ -125,9 +125,13 @@ const createProduct = async () => {
           }
       })
 
-      if(response.ok) {
+    if(response.ok) {
+        if(productId){
+          alert("successfully updated")
+        }else{
+          alert("successfully created")
+        }
 
-        alert ("Success!")
 
         if(!productId) {
             name.value = ""
@@ -135,7 +139,8 @@ const createProduct = async () => {
             brand.value = ""
             imageUrl.value = ""
             price.value = ""
-        }  
+        } 
+
     } else {
         alert ("Problem occured, check again")
     }
